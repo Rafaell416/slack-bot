@@ -1,9 +1,19 @@
 'use strict'
 
-const { RTMClient } = require('@slack/client')
+const { RTMClient, LogLevel } = require('@slack/client')
+const chalk = require('chalk')
+
+function handleOnAuthenticated (rtmStartData) {
+    console.log(chalk.green(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not yet connected to a channel`))
+}
+
+function addAuthenticatedHandler (rtm, handler) {
+    rtm.on('authenticated', handler)
+}
 
 module.exports.init = function slackClient (token) {
-    const rtm = new RTMClient(token)
+    const rtm = new RTMClient(token, {logLevel: LogLevel.DEBUG})
+    addAuthenticatedHandler(rtm, handleOnAuthenticated)
     return rtm
 }
 
