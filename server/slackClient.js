@@ -11,24 +11,23 @@ function addAuthenticatedHandler (rtm, handler) {
     rtm.on('authenticated', handler)
 }
 
+function handleOnMessage (message, rtm) {
+    console.log(chalk.cyan(`(channel:${message.channel}) ${message.user} says: ${message.text}`))
+
+    rtm.sendMessage('Habla que?', message.channel)
+    .then((res) => console.log('Message sent 👌'))
+    .catch((err) => handleError)
+}
+
+function handleError (err) {
+    console.log(chalk.red(`[error] ${err}`))
+}
+
 module.exports.init = function slackClient (token) {
-    const rtm = new RTMClient(token, {logLevel: LogLevel.DEBUG})
+    const rtm = new RTMClient(token)//{logLevel: LogLevel.VERBOSE}
     addAuthenticatedHandler(rtm, handleOnAuthenticated)
+    rtm.on('message', (message) => handleOnMessage(message, rtm))
     return rtm
 }
 
-
-/*
-
-// This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
-const conversationId = 'C1232456'
-
-// The RTM client can send simple string messages
-rtm.sendMessage('Hello there', conversationId)
-  .then((res) => {
-    // `res` contains information about the posted message
-    console.log('Message sent: ', res.ts)
-  })
-  .catch(err => console.error('There was an error ==>', err))
-
-  */
+module.exports.addAuthenticatedHandler = addAuthenticatedHandler
