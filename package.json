@@ -5,5 +5,14 @@
   "main": "index.js",
   "repository": "git@github.com:Rafaell416/slack-bot.git",
   "author": "Rafel Villarreal <rvillarreal416@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "node bin/run",
+    "push": "git push -u origin development"
+  },
+  "dependencies": {
+    "@slack/client": "^4.4.0",
+    "chalk": "^2.4.1",
+    "express": "^4.16.3"
+  }
 }
