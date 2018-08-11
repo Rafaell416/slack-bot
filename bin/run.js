@@ -4,6 +4,12 @@ const service = require('../server/service')
 const http = require('http')
 const slackClient = require('../server/slackClient')
 const chalk = require('chalk')
+
+const witToken = process.env.WIT_TOKEN
+const witClient = require('../server/witClient')(witToken)
+
+console.log(witToken)
+
 const slackToken = process.env.SLACK_TOKEN
 
 const server = http.createServer(service)
